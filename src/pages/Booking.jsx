@@ -1,14 +1,18 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import trains from "../data/trains";
+import WagonSelector from "../components/WagonSelector";
+import SeatMap from "../components/SeatMap";
 
 function Booking() {
   const { trainId } = useParams();
 
   const train = trains.find((t) => t.id === Number(trainId));
 
-  if (!train) {
-    return <h2>Потяг не знайдено</h2>;
-  }
+  const [selectedWagon, setSelectedWagon] = useState(null);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+
+  if (!train) return <h2>Потяг не знайдено</h2>;
 
   return (
     <div className="container">
@@ -22,6 +26,20 @@ function Booking() {
         <p>Відправлення: {train.departure}</p>
         <p>Тривалість: {train.duration}</p>
       </div>
+
+      <WagonSelector
+        wagons={train.wagons}
+        selectedWagon={selectedWagon}
+        setSelectedWagon={setSelectedWagon}
+      />
+
+      {selectedWagon && (
+        <SeatMap
+          seats={selectedWagon.seats}
+          selectedSeats={selectedSeats}
+          setSelectedSeats={setSelectedSeats}
+        />
+      )}
     </div>
   );
 }

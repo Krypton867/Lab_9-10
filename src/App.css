@@ -32,6 +32,7 @@ h1 {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
 }
 
 .train-card h2 {
@@ -65,4 +66,52 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 16px;
+}
+
+.wagon-list {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.wagon-list button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+.wagon-list button.active {
+  background: #0057b7;
+  color: white;
+}
+
+.seat-grid {
+  display: grid;
+  grid-template-columns: repeat(18, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.seat {
+  padding: 10px;
+  text-align: center;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.seat.free {
+  background: #c8f7c5;
+}
+
+.seat.selected {
+  background: #4da3ff;
+  color: white;
+}
+
+.seat.booked {
+  background: #ff6b6b;
+  color: white;
+  cursor: not-allowed;
 }
