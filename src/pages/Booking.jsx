@@ -4,6 +4,7 @@ import trains from "../data/trains";
 import WagonSelector from "../components/WagonSelector";
 import SeatMap from "../components/SeatMap";
 import BookingForm from "../components/BookingForm";
+import { getBookedSeats } from "../services/BookingService";
 
 function Booking() {
   const { trainId } = useParams();
@@ -14,6 +15,15 @@ function Booking() {
   const [selectedSeats, setSelectedSeats] = useState([]);
 
   if (!train) return <h2>Потяг не знайдено</h2>;
+
+  const mergedSeats = selectedWagon
+    ? selectedWagon.seats.map((seat) => ({
+        ...seat,
+        status: getBookedSeats(train.id, selectedWagon.id).includes(seat.id)
+          ? "booked"
+          : seat.status,
+      }))
+    : [];
 
   return (
     <div className="container">
@@ -37,12 +47,17 @@ function Booking() {
       {selectedWagon && (
         <>
           <SeatMap
-            seats={selectedWagon.seats}
+            seats={mergedSeats}
             selectedSeats={selectedSeats}
             setSelectedSeats={setSelectedSeats}
           />
 
-          <BookingForm selectedSeats={selectedSeats} />
+          <BookingForm
+            train={train}
+            selectedWagon={selectedWagon}
+            selectedSeats={selectedSeats}
+            setSelectedSeats={setSelectedSeats}
+          />
         </>
       )}
     </div>

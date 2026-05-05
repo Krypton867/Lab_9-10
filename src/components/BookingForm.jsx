@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { saveBooking } from "../services/BookingService";
 
-function BookingForm({ selectedSeats }) {
+function BookingForm({ train, selectedWagon, selectedSeats, setSelectedSeats }) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -19,9 +21,7 @@ function BookingForm({ selectedSeats }) {
   const validate = () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Введіть ім’я";
-    }
+    if (!formData.name.trim()) newErrors.name = "Введіть ім’я";
 
     if (!formData.phone.trim()) {
       newErrors.phone = "Введіть номер телефону";
@@ -40,16 +40,33 @@ function BookingForm({ selectedSeats }) {
     }
 
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (validate()) {
-      alert("Бронювання успішне!");
-    }
+    if (!validate()) return;
+
+    const booking = {
+      trainId: train.id,
+      trainNumber: train.number,
+      wagonId: selectedWagon.id,
+      seats: selectedSeats,
+      passenger: formData,
+    };
+
+    saveBooking(booking);
+
+    toast.success("Бронювання успішне!");
+
+    setFormData({
+      name: "",
+      phone: "",
+      email: "",
+    });
+
+    setSelectedSeats([]);
   };
 
   return (
