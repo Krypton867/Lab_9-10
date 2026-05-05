@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import trains from "../data/trains";
 import WagonSelector from "../components/WagonSelector";
 import SeatMap from "../components/SeatMap";
+import BookingForm from "../components/BookingForm";
 
 function Booking() {
   const { trainId } = useParams();
@@ -34,11 +35,15 @@ function Booking() {
       />
 
       {selectedWagon && (
-        <SeatMap
-          seats={selectedWagon.seats}
-          selectedSeats={selectedSeats}
-          setSelectedSeats={setSelectedSeats}
-        />
+        <>
+          <SeatMap
+            seats={selectedWagon.seats}
+            selectedSeats={selectedSeats}
+            setSelectedSeats={setSelectedSeats}
+          />
+
+          <BookingForm selectedSeats={selectedSeats} />
+        </>
       )}
     </div>
   );
