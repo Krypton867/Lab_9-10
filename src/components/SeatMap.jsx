@@ -21,7 +21,8 @@ function SeatMap({ seats, selectedSeats, setSelectedSeats }) {
     <div>
       <h3>Оберіть місця</h3>
 
-      <div className="seat-grid">
+      <div className="seat-map-wrapper">
+        <div className="seat-grid">
         {seats.map((seat) => (
           <div
             key={seat.id}
@@ -31,6 +32,7 @@ function SeatMap({ seats, selectedSeats, setSelectedSeats }) {
             {seat.number}
           </div>
         ))}
+        </div>
       </div>
     </div>
   );
